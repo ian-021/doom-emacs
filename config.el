@@ -133,8 +133,33 @@
 ;; Bind C-c t to toggle terminal
 (global-set-key (kbd "C-c t") #'my-toggle-term)
 
-;; Disable evil mode in vterm
+;; Disable evil mode in vterm completely
 (add-hook 'vterm-mode-hook
           (lambda ()
             (when (bound-and-true-p evil-local-mode)
-              (evil-emacs-state))))
+              (evil-local-mode -1))
+            (when (bound-and-true-p evil-collection-mode)
+              (evil-collection-mode -1))))
+
+;; Disable evil-snipe and remap 's' to avy-goto-char-timer
+;; Must be done in after! block to ensure it happens after evil-snipe loads
+(after! evil-snipe
+  (evil-snipe-mode -1))
+
+;; Remap 's' to avy-goto-char-timer
+;; Set the keybinding immediately; avy will autoload when the key is pressed
+(map! :n "s" #'avy-goto-char-timer
+      :m "s" #'avy-goto-char-timer)
+
+;; Auto-run doom/reload at startup to ensure keybindings work
+(add-hook 'emacs-startup-hook #'doom/reload)
+
+;; Disable h/l navigation in dired/dirvish
+;; Prefer using Enter to open files/directories and C-x C-j for jump-to-dired
+;; To re-enable: comment out the code below
+;;   Default: "h" -> #'dired-up-directory, "l" -> #'dired-find-file
+(use-package! dirvish
+  :config
+  (map! :map dirvish-mode-map
+        :n "h" nil
+        :n "l" nil))
