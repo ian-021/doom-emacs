@@ -1,0 +1,9 @@
+# Emacs auto-generated files
+*~
+*.elc
+auto-save-list
+.DS_Store
+
+# Doom Emacs specific
+.local/
+*.elc
