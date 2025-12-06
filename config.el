@@ -151,8 +151,6 @@
 (map! :n "s" #'avy-goto-char-timer
       :m "s" #'avy-goto-char-timer)
 
-;; Auto-run doom/reload at startup to ensure keybindings work
-(add-hook 'emacs-startup-hook #'doom/reload)
 
 ;; Disable h/l navigation in dired/dirvish
 ;; Prefer using Enter to open files/directories and C-x C-j for jump-to-dired
